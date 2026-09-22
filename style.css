@@ -13,6 +13,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* Desliga o flash cinza padrão do navegador ao tocar em links/botões no celular; os
+     próprios estados de :hover/:active da página já dão o retorno visual do toque. */
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* ===== Tokens: tema escuro (padrão) ===== */

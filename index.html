@@ -28,13 +28,13 @@
     <link rel="preload" href="./assets/fonts/sora-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="./style.css" />
 
-    <!-- Aplica o tema salvo antes da pintura, evitando o "flash" de tema errado -->
+    <!-- Aplica o tema salvo antes da pintura, evitando o "flash" de tema errado.
+         Modo escuro é o padrão do site: só muda para claro se a pessoa já tiver trocado
+         manualmente antes (não seguimos mais a preferência do sistema/celular). -->
     <script>
       (function () {
         try {
-          var saved = localStorage.getItem("theme");
-          var prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
-          if (saved === "light" || (!saved && prefersLight)) {
+          if (localStorage.getItem("theme") === "light") {
             document.documentElement.classList.add("light");
           }
         } catch (e) {}
