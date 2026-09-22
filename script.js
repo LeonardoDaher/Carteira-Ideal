@@ -55,10 +55,14 @@ applyTheme(document.documentElement.classList.contains("light"));
     var salvo = JSON.parse(bruto);
     if (!salvo || salvo.versao !== VERSAO || TELAS_COM_RESULTADO.indexOf(salvo.screen) === -1) return;
 
+    var cta = document.querySelector("a.cta");
     var titulo = document.querySelector("a.cta .cta-title");
     var sub = document.querySelector("a.cta .cta-sub");
     if (titulo) titulo.textContent = "Ver minha carteira de referência";
     if (sub) sub.textContent = "Suas respostas estão salvas neste aparelho";
+    // ?tela=resultado avisa o app para abrir direto no resultado, em vez de continuar de
+    // onde o usuário parou (ex: no meio de uma trilha de aprendizagem) — ver useAppState.ts
+    if (cta) cta.setAttribute("href", "./app/?tela=resultado");
   } catch (e) {
     /* armazenamento bloqueado ou dado inválido: mantém o texto original */
   }
@@ -100,15 +104,24 @@ applyTheme(document.documentElement.classList.contains("light"));
     } catch (e) {}
   }
 
-  /* Botão da lista: depois de liberado, baixa o PDF direto, sem abrir o diálogo */
+  /* Botão da lista: depois de liberado, baixa o PDF direto, sem abrir o diálogo.
+     Usa setAttribute/removeAttribute (em vez de .hidden = true/false) porque a
+     propriedade "hidden" não reflete de forma confiável em elementos SVG em todos os
+     navegadores — setar o atributo direto funciona em qualquer elemento. */
+  function ocultar(el, ocultar) {
+    if (!el) return;
+    if (ocultar) el.setAttribute("hidden", "");
+    else el.removeAttribute("hidden");
+  }
+
   function atualizarLista() {
+    ocultar(cadeado, liberado);
     if (!liberado) return;
     link.setAttribute("href", pdf);
     link.setAttribute("download", NOME_ARQUIVO);
     link.removeAttribute("target");
     link.removeAttribute("aria-haspopup");
     if (sub) sub.textContent = "Livro liberado: toque para baixar";
-    if (cadeado) cadeado.hidden = true;
   }
 
   /* Diálogo: o botão de baixar só ganha endereço depois da liberação */

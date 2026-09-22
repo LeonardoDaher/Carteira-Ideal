@@ -42,6 +42,12 @@ texto original. A lógica está no final de `script.js` e usa a mesma chave e ve
 (`carteiraideal.estado`, versão 2, em `app/src/state/useAppState.ts`). Se o app mudar essa versão,
 atualize `VERSAO` em `script.js`.
 
+Nesse caso o link do botão também ganha `?tela=resultado` (`./app/?tela=resultado`), para o app
+abrir direto no resultado — em vez de continuar de onde o usuário parou na última vez (ex: no meio
+de uma trilha de aprendizagem). O app lê esse parâmetro em `useAppState.ts`, força a tela de
+resultado e remove o parâmetro da URL logo em seguida, para não prender a navegação seguinte
+dentro do app a essa tela.
+
 ## Livro liberado por confiança (bônus para seguidores)
 
 O botão "Educação Financeira Infantil" abre um diálogo pedindo para seguir o Instagram. Quem toca em
